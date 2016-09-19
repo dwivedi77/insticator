@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="abhi.java.insticator.empmgm.model.EmployeeType" table="EMPLOYEE_TYPE" >
+
+        <id name="typeid" type="java.lang.Integer">
+            <column name="typeid" />
+            <generator class="identity" />
+        </id>
+        <property name="type" column="type" type="string"/>
+        <property name="rateType" column="rate_type" type="string"/>
+    </class>
+</hibernate-mapping>

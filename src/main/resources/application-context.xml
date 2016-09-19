@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
+        <property name="url" value="jdbc:hsqldb:hsql://localhost/instdb"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </bean>
+
+        <bean id="mySessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+            <property name="dataSource" ref="myDataSource"/>
+            <property name="mappingResources">
+                <list>
+                    <value>hbm/employee.hbm.xml</value>
+                    <value>hbm/employeetype.hbm.xml</value>
+                </list>
+            </property>
+            <property name="hibernateProperties">
+                <props>
+                    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                    <prop key="hibernate.show_sql">true</prop>
+                    <prop key="hibernate.hbm2ddl.auto">validate</prop>
+                </props>
+            </property>
+        </bean>
+        <bean name="empManagementHbmImpl" class="abhi.java.insticator.empmgm.dao.EmpManagementDaoHBMImpl" >
+            <constructor-arg name="factory" ref="mySessionFactory" />
+        </bean>
+
+    <bean name="empManagementSvc" class="abhi.java.insticator.empmgm.service.EmpManagementSvcImpl">
+        <property name="empManagementDao" ref="empManagementHbmImpl" />
+    </bean>
+
+</beans>

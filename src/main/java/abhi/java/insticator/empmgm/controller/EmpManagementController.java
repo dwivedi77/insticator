@@ -18,7 +18,7 @@ public class EmpManagementController {
     @Inject
     private EmpManagementSvc empManagementSvc;
 
-    @RequestMapping(value = "employee/{employeeId}/", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE}, method = RequestMethod.GET)
+    @RequestMapping(value = "employee/{employeeId}/", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<Employee> findEmployeeById(@PathVariable(value = "employeeId") int employeeId){
         Employee emp = null;

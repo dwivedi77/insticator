@@ -2,8 +2,9 @@ package abhi.java.insticator.empmgm.controller;
 
 import abhi.java.insticator.empmgm.model.Employee;
 import abhi.java.insticator.empmgm.service.EmpManagementSvc;
-import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -19,16 +20,26 @@ public class EmpManagementController {
 
     @RequestMapping(value = "employee/{employeeId}/", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE}, method = RequestMethod.GET)
     @ResponseBody
-    public Employee findEmployeeById(@PathVariable(value = "employeeId") int employeeId){
-        Employee emp = empManagementSvc.findEmployeeById(employeeId);
-        return emp;
+    public ResponseEntity<Employee> findEmployeeById(@PathVariable(value = "employeeId") int employeeId){
+        Employee emp = null;
+        try {
+            emp = empManagementSvc.findEmployeeById(employeeId);
+        }catch (Exception ex){
+            return new ResponseEntity<Employee>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<Employee>(emp, HttpStatus.OK);
     }
 
     @RequestMapping(value = "employee/new", consumes = {MediaType.APPLICATION_JSON_VALUE}, method = RequestMethod.PUT)
     @ResponseBody
-    public int createEmployee(@RequestBody Employee emp){
-        int id = empManagementSvc.createNewEmployee(emp);
-        return id;
+    public ResponseEntity<Integer> createEmployee(@RequestBody Employee emp){
+        int id = -1;
+        try {
+            id = empManagementSvc.createNewEmployee(emp);
+        }catch (Exception ex){
+            return new ResponseEntity<Integer>(id, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<Integer>(id, HttpStatus.OK);
     }
 
     public EmpManagementSvc getEmpManagementSvc() {
